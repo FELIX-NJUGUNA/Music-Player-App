@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:music_player_app/models/playlist_provider.dart';
 import 'package:music_player_app/pages/home_page.dart';
-import 'package:music_player_app/themes/dark_mode.dart';
-import 'package:music_player_app/themes/light_mode.dart';
+import 'package:music_player_app/themes/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+   MultiProvider(
+       providers: [
+         ChangeNotifierProvider(create: (context) => ThemeProvider()),
+         ChangeNotifierProvider(create: (context) => PlaylistProvider()),
+       ],
+     child: const MyApp(),
+   )
+  );
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -16,7 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
-      theme: lightMode,
+      theme: Provider.of<ThemeProvider>(context).themeData,
     );
   }
 }
